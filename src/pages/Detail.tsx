@@ -100,7 +100,7 @@ const Detail = () => {
                             {/* Reply to its comments */}
                             
                             <div className="border-[#FFC3C7] border-l-4">
-                                {items.map((item, index) => (
+                                {items.map(() => (
                                     <div className="mt-6 px-5">
                                         {/* avatar */}
                                         <div className="flex items-center gap-2">
