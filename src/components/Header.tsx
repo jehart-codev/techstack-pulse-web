@@ -8,8 +8,6 @@ import HeaderMenuSignedIn from "./HeaderMenuSignedIn";
 const Header = () => {
   const { user } = useAuth();
 
-  console.log(user, "user");
-
   return (
     <header className="flex justify-between p-8 border-b border-[#e7e7e7]">
       <div className="flex justify-between items-center gap-6">

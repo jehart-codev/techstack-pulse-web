@@ -20,8 +20,6 @@ const HeaderMenuSignedIn = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      // Optionally, you can redirect the user to the login page or home page
-      // window.location.href = "/login";
     } catch (error) {
       console.error("Error signing out: ", error);
     }
