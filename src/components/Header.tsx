@@ -3,7 +3,7 @@ import { MagnifyingGlass, NotePencil } from "@phosphor-icons/react";
 
 const Header = () => {
   return (
-    <header className="flex justify-between p-8 border-b border-[#e7e7e7]">
+    <header className="flex justify-between p-8 border-b sticky border-[#e7e7e7]">
       <div className="flex justify-between items-center gap-6">
         <img src={TechStackPulseLogo} alt="TechStack Pulse Logo" />
         <div className="flex justify-between items-center w-80">

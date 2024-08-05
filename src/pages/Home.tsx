@@ -1,7 +1,15 @@
 import { IconContext, BookmarkSimple } from "@phosphor-icons/react";
 import Header from "../components/Header";
+import { useNavigate  } from 'react-router-dom';
+
+
+
 
 const Home = () => {
+  const navigate = useNavigate();
+  const articleDetail = () => {
+    navigate('/detail');
+  }
   return (
     <div>
       <Header />
@@ -62,7 +70,7 @@ const Home = () => {
                       </IconContext.Provider>
                     </a>
                   </div>
-                  <h2 className="text-3xl font-bold">
+                  <h2 className="text-3xl font-bold cursor-pointer"  onClick={articleDetail}>
                     Designing for Impact: 6 Ideas to Enhance the User Experience
                     and Accessibility of Your Power BI...
                   </h2>
@@ -74,7 +82,9 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="w-[424px] py-10 px-3">sidebar</div>
+          <div className="w-[424px] py-10 px-3">
+
+          </div>
         </div>
       </main>
     </div>
