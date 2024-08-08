@@ -6,6 +6,7 @@ import { auth } from "../firebaseConfig";
 
 import { useClickOutside } from "../hooks/useClickOutside";
 import CreatePostModal from "./CreatePost";
+import Button from "./common/Button";
 
 type HeaderProps = {
   currentPage?: string;
@@ -35,12 +36,11 @@ const HeaderMenuSignedIn = ({ currentPage }: HeaderProps) => {
   return (
     <div className="flex justify-between items-center gap-2">
       {currentPage === "/editor" ? (
-        <button
+        <Button
+          type="primary"
+          label="Post article"
           onClick={() => setOpenArticlePreview(true)}
-          className="bg-[#ff2e3d] text-white p-2 opacity-25 hover:opacity-100 duration-300 w-[109px] rounded-[48px]"
-        >
-          Post article
-        </button>
+        />
       ) : (
         <Link
           to="/editor"
