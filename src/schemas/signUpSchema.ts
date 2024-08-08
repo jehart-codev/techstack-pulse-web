@@ -16,12 +16,6 @@ export const signUpSchema = z
         const hasNumbers = /\d/.test(value);
         const hasNonAlphas = /[W_]/.test(value); // We add _ as underscore seemed to be not included in non-alphanumerics in regex.
 
-        console.log("value: ", value);
-        console.log("hasUpperCase: ", hasUpperCase);
-        console.log("hasLowerCase: ", hasLowerCase);
-        console.log("hasNumbers: ", hasNumbers);
-        console.log("hasNonAlphas: ", hasNonAlphas);
-
         return hasUpperCase && hasLowerCase && hasNumbers && hasNonAlphas;
       }, "Password provided must at least have one upper case letter, lower case letter, number and non alphanumeric character."),
     passwordConfirm: z.string(),
