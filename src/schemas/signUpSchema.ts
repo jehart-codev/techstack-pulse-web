@@ -3,10 +3,10 @@ import { z } from "zod";
 export const signUpSchema = z
   .object({
     email: z.string().email("Must provide a valid email."),
-    fullname: z.string().min(3, "Must provide valid fullname"),
+    fullname: z.string().min(3, "Must provide valid fullname."),
     password: z
       .string()
-      .min(8, "Must provide password of at least 8 characters")
+      .min(8, "Must provide password of at least 8 characters.")
       .refine((value) => {
         /**
          * We check for password complexity here.
@@ -30,7 +30,7 @@ export const signUpSchema = z
     if (password !== passwordConfirm) {
       ctx.addIssue({
         code: "custom",
-        message: "Password fields does not match",
+        message: "Password fields does not match.",
         path: ["passwordConfirm"],
       });
     }

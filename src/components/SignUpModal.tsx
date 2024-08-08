@@ -80,6 +80,7 @@ const SignUpModal: FC<{
     setPassword("");
     setPasswordConfirm("");
     setErrors(null);
+    setLoading(false);
     toggleModal();
   };
 
