@@ -19,7 +19,7 @@ const Header = () => {
         {location.pathname === "/editor" ? (
           <div className="flex items-center">
             <p className="text-sm leading-5 text-[#3d3d3d]">
-              Draft in [Name Here]
+              Draft in {user && user.displayName}
             </p>
           </div>
         ) : (

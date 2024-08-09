@@ -56,7 +56,6 @@ const ArticleEditor = () => {
           Table,
           Undo,
         ],
-        initialData: "<h1>Hello from CKEditor 5!</h1>",
       }}
     />
   );

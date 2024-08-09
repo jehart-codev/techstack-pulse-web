@@ -21,3 +21,43 @@
   z-index: 0;
   visibility: visible;
 }
+
+/* ARTICLE PREVIEW STYLES */
+.preview-input-group > div input {
+  padding: 6px 0;
+  margin-bottom: 8px;
+}
+
+.preview-input-group > div:first-child input {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* ARTICLE EDITOR WYSIWYG */
+.ck.ck-editor {
+  margin-top: 30px;
+}
+
+.ck.ck-editor .ck-editor__main .ck-content {
+  border: 0;
+}
+
+.ck.ck-editor .ck-editor__main .ck-content:focus {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.ck.ck-editor .ck-editor__top .ck-sticky-panel .ck-sticky-panel__content {
+  border: 0;
+}
+
+.ck.ck-editor
+  .ck-editor__top
+  .ck-sticky-panel
+  .ck-sticky-panel__content
+  .ck-toolbar__items {
+  justify-content: space-evenly;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
