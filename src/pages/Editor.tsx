@@ -4,8 +4,8 @@ import ArticleEditor from "../components/ArticleEditor";
 const Editor = () => {
   return (
     <div>
+      <Header />
       <main className="container mx-auto">
-        <Header />
         <ArticleEditor />
       </main>
     </div>
