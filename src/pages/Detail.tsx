@@ -30,8 +30,9 @@ const Detail = () => {
 
   return (
     <div>
+      <Header />
+
       <main className="container mx-auto overlay">
-        <Header />
         <Drawer
           open={open}
           onClose={toggleDrawer(false)}
