@@ -8,7 +8,7 @@ const CreatePostModal = ({ isVisible, toggleModal }: ModalProps) => {
   const handleClose = () => toggleModal();
 
   return (
-    <Modal isVisible={isVisible} onClose={handleClose}>
+    <Modal isVisible={isVisible} size="md" onClose={handleClose}>
       <div className="flex justify-between gap-4">
         <div className="flex-1">
           <h3 className="text-2xl text-[#3d3d3d] font-semibold mb-3">
