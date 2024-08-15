@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { UserCircle, NotePencil, Bell } from "@phosphor-icons/react";
@@ -7,6 +8,8 @@ import { auth } from "../firebaseConfig";
 import { useClickOutside } from "../hooks/useClickOutside";
 import CreatePostModal from "./CreatePost";
 import Button from "./common/Button";
+import { useNavigate  } from 'react-router-dom';
+
 
 type HeaderProps = {
   currentPage?: string;
@@ -32,6 +35,11 @@ const HeaderMenuSignedIn = ({ currentPage }: HeaderProps) => {
       console.error("Error signing out: ", error);
     }
   };
+
+  const navigate = useNavigate();
+  const navigateProfile = () => {
+    navigate('/profile');
+  }
 
   return (
     <div className="flex justify-between items-center gap-2">
@@ -67,7 +75,7 @@ const HeaderMenuSignedIn = ({ currentPage }: HeaderProps) => {
         >
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
             <li>
-              <button className="w-[100%] text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+              <button    onClick={navigateProfile} className="w-[100%] text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                 Profile
               </button>
             </li>
