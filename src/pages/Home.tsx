@@ -5,16 +5,13 @@ import {
   ChatsCircle,
 } from "@phosphor-icons/react";
 import Header from "../components/Header";
-import { useNavigate  } from 'react-router-dom';
-
-
-
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
   const articleDetail = () => {
-    navigate('/detail');
-  }
+    navigate("/detail");
+  };
   return (
     <div>
       <Header />
@@ -52,7 +49,7 @@ const Home = () => {
                   <img
                     alt="article image"
                     className="w-[100%] block rounded-lg"
-                    src="https://s3-alpha-sig.figma.com/img/fbbd/1004/9cf87f621bbb637f67dc3f86d8eb7c0c?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=SSF2lZLTyAXDsS6p~oVXtUnBgdnfrpiVjYuws25cPqyRS1Vsm5W-Fhewe8dVZ5CDqGz9P9Sr6aVfrXxz0CkRXctnH8f1IsCRYHQtGYTYju53jB3AiI4DQi6wcugixGwMwqxQx0WtDu3SppA~da~KN~G5OtbrjrrGUqsPV8UhmpGLoG4~7Tp8DlDsQu0Ax1HrDL4THf9qNvokKdpHxh1USO0B7WMfniD4pzHm~PZnzZD36aT~daIwXm5utC2PHFtSFy6exXzYlvXkyZw2RgrfG92ogINIIEbzq6Gba7T0JMxPkOsCLAkeWPYGFxBsV8lY1LEkOhsDKF6GpMzRaWI7hA__"
+                    src="https://s3-alpha-sig.figma.com/img/fbbd/1004/9cf87f621bbb637f67dc3f86d8eb7c0c?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QX~G5sHAoSW~Q5IjHEiQT-TYwGnBTB30heA7EI0pigvn~w6n8O2HQHBjuOf8lUpJKxuYn8cwJXZ7M3o5ORkrXZPNeMxc2VitcMPvRv7QijgOSHU5CG39WcN6epiT6wMhaETcroqFO~HJqOlYoAwhUh2RaLF6-JuOaJjQbu7Hz~UHT9srlkE6rNvsIcNFG~NQ1v2nDJdHlKgvt3qFd7sQ8PHg-xzhLbNWFfOc6Pm4hC9YYXbmiHRBuigt6p7qKnfWVyYEJFfxG3WzJ~Tfa4WuBswSxXRKluy8LKAA4wvkaoQ4Pjld8I27v5DGz4kXn~RNOyleN0wnKF2Y7E-V7nTEng__"
                   />
                 </div>
 
@@ -66,7 +63,7 @@ const Home = () => {
                       <div className="flex items-center gap-2">
                         <img
                           className="w-6 rounded-full"
-                          src="https://s3-alpha-sig.figma.com/img/11db/cb98/2f9ba115c7d5cc790cc48a457815fb67?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=bmyQ8PD~U7XIpJu7gryBKa8ILmsPaBoSoA39AyIGYCYrkXbPCsMe9w6exnVzITWgDx9fEMc9thTFYh~ydCNgbSxXnrCl~mkKrKA4~VZyBNXygKDml7~wQF0bXI88vLTwps854CfFk47N5lLwZXB2jmLaMtxt6v5Gn9IMjEkz2l--VUn2qdQ6~woetX87qnA4xCK9xZhIZsPymr4oOScWq-yXhRdBUR3~mRghY7VikRQxHc7lR89mD~oMG-dd9jNGmTZ~8rihFeAhcNgATsj8CcGPia95mUHOCfo1r6YH5bCReRXKc4inh53dQ00xa~s8HESwKlsYr8RcAMuh0fVZ9Q__"
+                          src="https://s3-alpha-sig.figma.com/img/11db/cb98/2f9ba115c7d5cc790cc48a457815fb67?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=MmUSojFHqGzG2o7CET3l5uqgbE6yIBn4pyAf-S21ox4h5vDYwtRFN~byI0DAv76vaKB63QTkj3yfhmkt7pKc-APkuHTZE6ZtSPSK1fflHwo9MivyIh65AGafYTMW8yZMBxkH7URSwlDpuP2HmySuKMn8wYad2sOdZmnHm7t0Su9QCwtJOrZWZuIf-prLTQxjFeDCl65QrqAlESlHTfZnXeTRVHAeDQmxY1FfOxxeH1rqz7oWteElE1qTicxkJ-781qFhfYQHGu-gdMZzCRil~SVYZryGFPp8TBuPjfqWAH-Hd6wVEfbjU67tf5ieJfvRj8Z2lSEngjBGuHnE8Ne9PQ__"
                         />
                         <p className="text-sm">Erika Albright</p>
                       </div>
@@ -74,7 +71,10 @@ const Home = () => {
                         <BookmarkSimple />
                       </a>
                     </div>
-                    <h2 className="text-3xl font-bold cursor-pointer" onClick={articleDetail}>
+                    <h2
+                      className="text-3xl font-bold cursor-pointer"
+                      onClick={articleDetail}
+                    >
                       Designing for Impact: 6 Ideas to Enhance the User
                       Experience and Accessibility of Your Power BI...
                     </h2>

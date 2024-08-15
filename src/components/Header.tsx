@@ -10,6 +10,15 @@ const Header = () => {
   const location = useLocation();
   const { user } = useAuth();
 
+  const renderSearchBar = () => (
+    <div className="flex items-center gap-3 border py-2 px-3 rounded-3xl border-[#B0B0B0] w-[100%]">
+      <MagnifyingGlass color="#B0B0B0" />
+      <input className="outline-none" type="text" placeholder="Search" />
+    </div>
+  );
+
+  console.log(user, "[user]");
+
   return (
     <header className="flex justify-between p-8 border-b sticky border-[#e7e7e7]">
       <div className="flex justify-between items-center gap-6">
@@ -24,14 +33,7 @@ const Header = () => {
           </div>
         ) : (
           <div className="flex justify-between items-center w-80">
-            <div className="flex items-center gap-3 border py-2 px-3 rounded-3xl border-[#B0B0B0] w-[100%]">
-              <MagnifyingGlass color="#B0B0B0" />
-              <input
-                className="outline-none"
-                type="text"
-                placeholder="Search"
-              />
-            </div>
+            {renderSearchBar()}
           </div>
         )}
       </div>

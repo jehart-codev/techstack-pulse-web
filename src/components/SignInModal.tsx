@@ -39,7 +39,6 @@ const SignInModal: FC<{ isVisible: boolean; toggleModal: () => void }> = ({
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      alert("User signed in successfully");
       toggleModal();
     } catch (error) {
       console.error("Error signing in:", error);
@@ -80,17 +79,17 @@ const SignInModal: FC<{ isVisible: boolean; toggleModal: () => void }> = ({
               error={errors?.password}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </div>
-          <div>
-            <button
-              type="submit"
-              className={`${
-                isLoading ? "opacity-50" : ""
-              } text-[#fff] bg-[#ff2e3d] rounded-[48px] py-3 outline-none w-[100%] text-lg hover:bg-[#c7000e]`}
-              disabled={isLoading}
-            >
-              Sign In
-            </button>
+            <div>
+              <button
+                type="submit"
+                className={`${
+                  isLoading ? "opacity-50" : ""
+                } text-[#fff] bg-[#ff2e3d] rounded-[48px] py-3 outline-none w-[100%] text-lg hover:bg-[#c7000e]`}
+                disabled={isLoading}
+              >
+                Sign In
+              </button>
+            </div>
           </div>
         </form>
       </div>

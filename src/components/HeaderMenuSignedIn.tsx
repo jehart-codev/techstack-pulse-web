@@ -60,27 +60,25 @@ const HeaderMenuSignedIn = ({ currentPage }: HeaderProps) => {
             <UserCircle size={32} />
           </button>
         </div>
-        <div
-          className={`${
-            !showMenu && "hidden"
-          } absolute right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-44 dark:bg-gray-700`}
-        >
-          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-            <li>
-              <button className="w-[100%] text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                Profile
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={handleLogout}
-                className="w-[100%] text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Logout
-              </button>
-            </li>
-          </ul>
-        </div>
+        {showMenu && (
+          <div className="absolute right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-44 dark:bg-gray-700">
+            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+              <li>
+                <button className="w-[100%] text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  Profile
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="w-[100%] text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
 
       <CreatePostModal
