@@ -1,13 +1,21 @@
 import { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { UserCircle, NotePencil, Bell } from "@phosphor-icons/react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 
 import { useClickOutside } from "../hooks/useClickOutside";
+import CreatePostModal from "./CreatePost";
+import Button from "./common/Button";
 
-const HeaderMenuSignedIn = () => {
+type HeaderProps = {
+  currentPage?: string;
+};
+
+const HeaderMenuSignedIn = ({ currentPage }: HeaderProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [showMenu, setShowMenu] = useState(false);
+  const [openArticlePreview, setOpenArticlePreview] = useState(false);
 
   const handleToggleMenu = () => {
     setShowMenu((showMenu) => !showMenu);
@@ -27,10 +35,21 @@ const HeaderMenuSignedIn = () => {
 
   return (
     <div className="flex justify-between items-center gap-2">
-      <button className="flex items-center gap-2 text-sm px-3 py-2">
-        <NotePencil size={20} />
-        Write
-      </button>
+      {currentPage === "/editor" ? (
+        <Button
+          type="primary"
+          label="Post article"
+          onClick={() => setOpenArticlePreview(true)}
+        />
+      ) : (
+        <Link
+          to="/editor"
+          className="flex items-center gap-2 text-sm px-3 py-2"
+        >
+          <NotePencil size={20} />
+          Write
+        </Link>
+      )}
       <button className="px-3 py-2">
         <Bell size={20} />
       </button>
@@ -63,6 +82,11 @@ const HeaderMenuSignedIn = () => {
           </ul>
         </div>
       </div>
+
+      <CreatePostModal
+        isVisible={openArticlePreview}
+        toggleModal={() => setOpenArticlePreview(!openArticlePreview)}
+      />
     </div>
   );
 };

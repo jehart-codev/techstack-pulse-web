@@ -3,9 +3,15 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { auth } from "../firebaseConfig";
 import TechStackPulseSmallLogo from "../assets/tsp-logo-small.svg";
+import { signInSchema } from "../schemas";
 import Modal from "./common/Modal";
 import Input from "./common/Input";
 import PasswordInput from "./common/PasswordInput";
+
+interface IFormErrors {
+  email?: string[];
+  password?: string[];
+}
 
 const SignInModal: FC<{ isVisible: boolean; toggleModal: () => void }> = ({
   isVisible,
@@ -14,10 +20,22 @@ const SignInModal: FC<{ isVisible: boolean; toggleModal: () => void }> = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<IFormErrors | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    const validationResult = signInSchema.safeParse({
+      email,
+      password,
+    });
+
+    if (!validationResult.success) {
+      setErrors(validationResult.error.flatten().fieldErrors as IFormErrors);
+      setLoading(false);
+      return;
+    }
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -34,6 +52,8 @@ const SignInModal: FC<{ isVisible: boolean; toggleModal: () => void }> = ({
   const handleClose = () => {
     setEmail("");
     setPassword("");
+    setErrors(null);
+    setLoading(false);
     toggleModal();
   };
 
@@ -50,11 +70,14 @@ const SignInModal: FC<{ isVisible: boolean; toggleModal: () => void }> = ({
               title="Email address"
               placeholder="email@email.com"
               value={email}
+              error={errors?.email}
               onChange={(e) => setEmail(e.target.value)}
             />
+
             <PasswordInput
               title="Password"
               value={password}
+              error={errors?.password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>

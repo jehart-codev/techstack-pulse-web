@@ -1,17 +1,39 @@
+import { createPortal } from "react-dom";
 import { XCircle } from "@phosphor-icons/react";
 
 interface ModalProps {
   isVisible: boolean;
+  size?: string;
   onClose: () => void;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({
+  isVisible,
+  size = "sm",
+  onClose,
+  children,
+}) => {
   if (!isVisible) return null;
 
-  return (
+  let modalSize = "max-w-[660px]"; //default
+  switch (size) {
+    case "sm":
+      break;
+
+    case "md":
+      modalSize = "max-w-[880px]";
+      break;
+
+    default:
+      break;
+  }
+
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
-      <div className="relative w-full max-w-[600px] p-8 mx-auto bg-white rounded-3xl shadow-lg">
+      <div
+        className={`${modalSize} relative w-full p-8 mx-auto bg-white rounded-3xl shadow-lg`}
+      >
         <div className="flex items-center justify-end mb-5">
           <button
             type="button"
@@ -23,7 +45,8 @@ const Modal: React.FC<ModalProps> = ({ isVisible, onClose, children }) => {
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

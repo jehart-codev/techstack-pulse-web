@@ -3,10 +3,11 @@ import { Eye, EyeSlash } from "@phosphor-icons/react";
 
 const PasswordInput: FC<{
   title: string;
-  value: string;
   placeholder?: string;
+  value: string;
+  error?: string[]; // Contains the string of error messages for the current field.
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}> = ({ title, placeholder = "••••••••••••••", value, onChange }) => {
+}> = ({ title, placeholder = "••••••••••••••", value, error, onChange }) => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -18,9 +19,12 @@ const PasswordInput: FC<{
       <label className="text-sm font-bold" htmlFor={title}>
         {title}
       </label>
+
       <div className="relative">
         <input
-          className="border border-gray-300 rounded-lg p-3 w-full pr-10"
+          className={`border border-gray-300 rounded-lg p-3 w-full pr-10 ${
+            error ? "bg-red-50" : ""
+          }`}
           placeholder={placeholder}
           type={isPasswordVisible ? "text" : "password"}
           id={title}
@@ -35,6 +39,8 @@ const PasswordInput: FC<{
           {isPasswordVisible ? <Eye size={20} /> : <EyeSlash size={20} />}
         </button>
       </div>
+
+      {error && <p className="text-sm text-[#ff2e3d]">{error.join(", ")}</p>}
     </div>
   );
 };
