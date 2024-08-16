@@ -14,12 +14,26 @@ export const useFetchPostComments = () => {
     const response = await new Promise((resolve) =>
       setTimeout(resolve, 2500, {
         data: [
-          { author: "John Doe", comment: "This is a post comment. This is a comment. A trial comment." },
-          { author: "James Bond", comment: "Name's bond, james bond." },
-          { author: "Hairy Petter", comment: "Two Questions. First, who is the real main character in the lord of the rings? and second, why Sam?" },
+          { author: "John Doe", body: "This is a post comment. This is a comment. A trial comment.", replies: [] },
+          {
+            author: "James Bond",
+            body: "Name's bond, james bond.",
+            replies: [
+              {
+                author: "Alan Wake",
+                body: "Peter Piper picked a peck of pickled peppers. A peck of pickled peppers Peter Piper picked. If Peter Piper picked a peck of pickled peppers, Where’s the peck of pickled peppers Peter Piper picked?",
+                replies: [],
+              },
+              {
+                author: "Jason Bourne",
+                body: "Susie works in a shoeshine shop. Where she shines she sits, and where she sits she shines.",
+              },
+            ],
+          },
+          { author: "Hairy Petter", body: "Two Questions. First, who is the real main character in the lord of the rings? and second, why Sam?" },
           {
             author: "Albert Boomer",
-            comment: "The purpose of lorem ipsum is to create a natural looking block of text that doesn't distract from the layout.",
+            body: "The purpose of lorem ipsum is to create a natural looking block of text that doesn't distract from the layout.",
           },
         ],
       }),
