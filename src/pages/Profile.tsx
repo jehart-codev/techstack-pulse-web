@@ -30,7 +30,7 @@ const Profile = () => {
         
           <div className="grow py-14">
             <div>
-                Tomioka Giyu
+                <span className="font-bold text-4xl text-[#3D3D3D]">Tomioka Giyu</span>
             </div>
             {/* tabs */}
             <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-40
