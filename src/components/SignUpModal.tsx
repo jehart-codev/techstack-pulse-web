@@ -10,7 +10,8 @@ import PasswordInput from "./common/PasswordInput";
 
 interface IFormErrors {
   email?: string[];
-  fullname: string[];
+  firstname: string[];
+  lastname: string[];
   password: string[];
   passwordConfirm: string[];
 }
@@ -19,9 +20,11 @@ const SignUpModal: FC<{
   isVisible: boolean;
   toggleModal: () => void;
   openSignInModal: () => void;
-}> = ({ isVisible, toggleModal, openSignInModal }) => {
+  onSignUpSuccess: () => void;
+}> = ({ isVisible, toggleModal, openSignInModal, onSignUpSuccess }) => {
   const [email, setEmail] = useState("");
-  const [fullname, setFullname] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -33,7 +36,8 @@ const SignUpModal: FC<{
 
     const validationResult = signUpSchema.safeParse({
       email,
-      fullname,
+      firstname,
+      lastname,
       password,
       passwordConfirm,
     });
@@ -60,12 +64,12 @@ const SignUpModal: FC<{
       );
       const user = userCredential.user;
 
+      onSignUpSuccess();
+
       // Update the user's profile with the full name
       await updateProfile(user, {
-        displayName: fullname,
+        displayName: `${firstname} ${lastname}`,
       });
-
-      alert("User created successfully");
     } catch (error) {
       console.error("Error creating user:", error);
       alert("Error creating user");
@@ -76,7 +80,8 @@ const SignUpModal: FC<{
 
   const handleClose = () => {
     setEmail("");
-    setFullname("");
+    setFirstName("");
+    setLastName("");
     setPassword("");
     setPasswordConfirm("");
     setErrors(null);
@@ -111,11 +116,18 @@ const SignUpModal: FC<{
               onChange={(e) => setEmail(e.target.value)}
             />
             <Input
-              title="Fullname"
-              placeholder="John Doe"
-              value={fullname}
-              error={errors?.fullname}
-              onChange={(e) => setFullname(e.target.value)}
+              title="First name"
+              placeholder="John"
+              value={firstname}
+              error={errors?.firstname}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <Input
+              title="Last name"
+              placeholder="Doe"
+              value={lastname}
+              error={errors?.lastname}
+              onChange={(e) => setLastName(e.target.value)}
             />
             <PasswordInput
               title="Password"

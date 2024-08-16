@@ -10,9 +10,10 @@ import Button from "./common/Button";
 
 type HeaderProps = {
   currentPage?: string;
+  onSignOutSuccess: () => void;
 };
 
-const HeaderMenuSignedIn = ({ currentPage }: HeaderProps) => {
+const HeaderMenuSignedIn = ({ currentPage, onSignOutSuccess }: HeaderProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [showMenu, setShowMenu] = useState(false);
   const [openArticlePreview, setOpenArticlePreview] = useState(false);
@@ -28,6 +29,7 @@ const HeaderMenuSignedIn = ({ currentPage }: HeaderProps) => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      onSignOutSuccess();
     } catch (error) {
       console.error("Error signing out: ", error);
     }
