@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { UserCircle, NotePencil, Bell } from "@phosphor-icons/react";
@@ -7,6 +8,7 @@ import { auth } from "../firebaseConfig";
 import { useClickOutside } from "../hooks/useClickOutside";
 import CreatePostModal from "./CreatePost";
 import Button from "./common/Button";
+import { useNavigate } from "react-router-dom";
 
 type HeaderProps = {
   currentPage?: string;
@@ -33,6 +35,11 @@ const HeaderMenuSignedIn = ({ currentPage, onSignOutSuccess }: HeaderProps) => {
     } catch (error) {
       console.error("Error signing out: ", error);
     }
+  };
+
+  const navigate = useNavigate();
+  const navigateProfile = () => {
+    navigate("/profile");
   };
 
   return (
@@ -62,25 +69,30 @@ const HeaderMenuSignedIn = ({ currentPage, onSignOutSuccess }: HeaderProps) => {
             <UserCircle size={32} />
           </button>
         </div>
-        {showMenu && (
-          <div className="absolute right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-44 dark:bg-gray-700">
-            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-              <li>
-                <button className="w-[100%] text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                  Profile
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="w-[100%] text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </div>
-        )}
+        <div
+          className={`${
+            !showMenu && "hidden"
+          } absolute right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-44 dark:bg-gray-700`}
+        >
+          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+            <li>
+              <button
+                onClick={navigateProfile}
+                className="w-[100%] text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                Profile
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={handleLogout}
+                className="w-[100%] text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <CreatePostModal
