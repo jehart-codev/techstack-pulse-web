@@ -6,6 +6,7 @@ interface ModalProps {
   size?: string;
   onClose: () => void;
   children: React.ReactNode;
+  withCloseButton?: boolean;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -13,10 +14,11 @@ const Modal: React.FC<ModalProps> = ({
   size = "sm",
   onClose,
   children,
+  withCloseButton = true,
 }) => {
   if (!isVisible) return null;
 
-  let modalSize = "max-w-[660px]"; //default
+  let modalSize = "max-w-[600px]"; //default
   switch (size) {
     case "sm":
       break;
@@ -34,15 +36,17 @@ const Modal: React.FC<ModalProps> = ({
       <div
         className={`${modalSize} relative w-full p-8 mx-auto bg-white rounded-3xl shadow-lg`}
       >
-        <div className="flex items-center justify-end mb-5">
-          <button
-            type="button"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
-            onClick={onClose}
-          >
-            <XCircle size={26} color="#3d3d3d" />
-          </button>
-        </div>
+        {withCloseButton && (
+          <div className="flex items-center justify-end mb-5">
+            <button
+              type="button"
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+              onClick={onClose}
+            >
+              <XCircle size={26} color="#3d3d3d" />
+            </button>
+          </div>
+        )}
         {children}
       </div>
     </div>,
