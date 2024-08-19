@@ -66,7 +66,7 @@ const SignInModal: FC<{
           <h2 className="text-3xl font-bold font-outfit">Sign In</h2>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-4 mb-10">
+          <div className="flex flex-col gap-4">
             <Input
               title="Email address"
               placeholder="email@email.com"
