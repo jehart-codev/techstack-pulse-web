@@ -1,7 +1,6 @@
-import { useImperativeHandle, forwardRef, useState, useEffect, Suspense } from "react";
-import { CaretDown, ChatsCircle, HandsClapping, IconContext, XCircle } from "@phosphor-icons/react";
-import Drawer from "@mui/material/Drawer";
-import { TextField } from "@mui/material";
+import { useImperativeHandle, forwardRef, useState, useEffect } from "react";
+import { CaretDown, XCircle } from "@phosphor-icons/react";
+import { Drawer, Alert, TextField } from "@mui/material";
 
 import { useFetchArticleComments } from "../../../hooks";
 import ArticleComment, { IArticleComment } from "./ArticleComment";
@@ -11,11 +10,8 @@ import ArticleCommentsSkeleton from "./ArticleCommentsSkeleton";
 const PostComments = forwardRef<any, {}>((_, ref) => {
   const [open, setOpen] = useState(false);
   const [comments, setComments] = useState<IArticleComment[]>([]);
-  const [fetchingComments, setFetchingComments] = useState(false);
-  const [processing, setProcessing] = useState(false);
-  const [isSeeMore, setSeeMore] = useState(false);
 
-  const fetchArticleComments = useFetchArticleComments();
+  const { fetching, error, fetchArticleComments } = useFetchArticleComments();
 
   useImperativeHandle(ref, () => ({
     showComments: () => setOpen(true),
@@ -33,16 +29,11 @@ const PostComments = forwardRef<any, {}>((_, ref) => {
     if (open && !comments.length) {
       async function fetchComments() {
         try {
-          setFetchingComments(true);
-
           const comments = await fetchArticleComments();
 
-          // @ts-ignore
           setComments(comments.data);
         } catch (error) {
-          // TODO: Add error handling
-        } finally {
-          setFetchingComments(false);
+          console.log(error);
         }
       }
 
@@ -54,7 +45,7 @@ const PostComments = forwardRef<any, {}>((_, ref) => {
     <Drawer open={open} onClose={() => setOpen(false)} anchor="right" PaperProps={{ width: "90%" }} className="w-100">
       <div className="w-[424px] p-5 mt-4">
         <div className="flex justify-between items-center">
-          <span className="text-[#3D3D3D] font-semibold text-[20px] leading-7">Responses (54)</span>
+          <span className="text-[#3D3D3D] font-semibold text-[20px] leading-7">Responses ({comments.length})</span>
           <XCircle size={32} className="cursor-pointer" onClick={() => setOpen(false)} />
         </div>
 
@@ -78,8 +69,15 @@ const PostComments = forwardRef<any, {}>((_, ref) => {
             rows={3}
           ></TextField>
           <div className="flex justify-end py-2">
-            <button className="w-20 rounded-lg font-normal text-[14px] align-middle text-[#FF2E3D]">Cancel</button>
-            <button className="ml-2 w-20 rounded-[48px] bg-[#FF2E3D] font-normal text-[14px] text-[#FFFFFF] py-2 px-3">Respond</button>
+            <button disabled={fetching} className={`w-20 rounded-lg font-normal text-[14px] align-middle ${fetching ? "text-zinc-500" : "text-[#FF2E3D]"}`}>
+              Cancel
+            </button>
+            <button
+              disabled={fetching}
+              className={`ml-2 w-20 rounded-[48px] ${fetching ? "bg-zinc-500" : "bg-[#FF2E3D]"} font-normal text-[14px] text-[#FFFFFF] py-2 px-3`}
+            >
+              Respond
+            </button>
           </div>
         </div>
 
@@ -89,7 +87,15 @@ const PostComments = forwardRef<any, {}>((_, ref) => {
           <CaretDown size={20} className="text-[#737373] ml-2 cursor-pointer" />
         </div>
 
-        {fetchingComments ? <ArticleCommentsSkeleton /> : comments.map((comment, index) => <ArticleComment key={index} {...comment} />)}
+        {fetching ? (
+          <ArticleCommentsSkeleton />
+        ) : error ? (
+          <Alert severity="error" className="mt-6">
+            {error.message}
+          </Alert>
+        ) : (
+          comments.map((comment, index) => <ArticleComment key={index} {...comment} />)
+        )}
       </div>
     </Drawer>
   );
