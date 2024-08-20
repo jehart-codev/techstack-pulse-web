@@ -1,2 +1,2 @@
 export * from "./useClickOutside";
-export * from "./useFetchPostComments";
+export * from "./useFetchArticleComments";

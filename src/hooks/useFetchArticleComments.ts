@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 // import axios from "axios";
 
-export const useFetchPostComments = () => {
+export const useFetchArticleComments = () => {
   const abortController = new AbortController();
   const fetchPostComments = async () => {
     // TODO: Add proper url here
@@ -12,7 +12,7 @@ export const useFetchPostComments = () => {
      * We are mimicking here api request, will be removed in the future once API is available.
      */
     const response = await new Promise((resolve) =>
-      setTimeout(resolve, 2500, {
+      setTimeout(resolve, 2000, {
         data: [
           { author: "John Doe", body: "This is a post comment. This is a comment. A trial comment.", replies: [] },
           {

@@ -1,44 +1,52 @@
-import { useImperativeHandle, forwardRef, useState, useEffect } from "react";
+import { useImperativeHandle, forwardRef, useState, useEffect, Suspense } from "react";
 import { CaretDown, ChatsCircle, HandsClapping, IconContext, XCircle } from "@phosphor-icons/react";
 import Drawer from "@mui/material/Drawer";
 import { TextField } from "@mui/material";
 
-import { useFetchPostComments } from "../../hooks";
+import { useFetchArticleComments } from "../../../hooks";
 import ArticleComment, { IArticleComment } from "./ArticleComment";
+import ArticleCommentsSkeleton from "./ArticleCommentsSkeleton";
 
 // TODO: fixup ref type of any
 const PostComments = forwardRef<any, {}>((_, ref) => {
   const [open, setOpen] = useState(false);
   const [comments, setComments] = useState<IArticleComment[]>([]);
+  const [fetchingComments, setFetchingComments] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [isSeeMore, setSeeMore] = useState(false);
 
-  const fetchPostComments = useFetchPostComments();
+  const fetchArticleComments = useFetchArticleComments();
 
   useImperativeHandle(ref, () => ({
     showComments: () => setOpen(true),
   }));
 
   useEffect(() => {
-    if (open) {
+    /**
+     * ! Limitations
+     * Since we are using comments state as a cache mechanism.
+     * That means if underlying comments are modified, we won't see it.
+     * Solution:
+     * 1. Add some sort of refresh comment functionality.
+     * 2. When replying or adding new comment, fetch latest comments.
+     */
+    if (open && !comments.length) {
       async function fetchComments() {
         try {
-          setProcessing(true);
+          setFetchingComments(true);
 
-          const comments = await fetchPostComments();
+          const comments = await fetchArticleComments();
 
           // @ts-ignore
           setComments(comments.data);
         } catch (error) {
           // TODO: Add error handling
         } finally {
-          setProcessing(false);
+          setFetchingComments(false);
         }
       }
 
       fetchComments();
-
-      console.log("Fetching article comments!");
     }
   }, [open]);
 
@@ -81,9 +89,7 @@ const PostComments = forwardRef<any, {}>((_, ref) => {
           <CaretDown size={20} className="text-[#737373] ml-2 cursor-pointer" />
         </div>
 
-        {comments.map((comment, index) => (
-          <ArticleComment key={index} {...comment} />
-        ))}
+        {fetchingComments ? <ArticleCommentsSkeleton /> : comments.map((comment, index) => <ArticleComment key={index} {...comment} />)}
       </div>
     </Drawer>
   );
