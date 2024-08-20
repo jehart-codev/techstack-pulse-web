@@ -51,7 +51,7 @@ const Detail = () => {
                     <HandsClapping className="mr-2" /> 40
                   </span>
                   <span onClick={handleShowComments} className="flex mr-3 font-normal text-[16px] text-[#6D6D6D] cursor-pointer">
-                    <ChatsCircle weight="duotone" className="mr-2" /> 5
+                    <ChatsCircle weight="duotone" className="mr-2" /> 4
                   </span>
                   <span className="flex cursor-pointer">
                     <BookmarkSimple />
