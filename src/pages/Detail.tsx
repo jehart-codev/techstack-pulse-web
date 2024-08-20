@@ -1,29 +1,16 @@
-import { useState, useRef } from "react";
-import { BookmarkSimple, CaretDown, ChatsCircle, HandsClapping, IconContext, XCircle } from "@phosphor-icons/react";
+import { useRef } from "react";
+import { BookmarkSimple, ChatsCircle, HandsClapping, IconContext } from "@phosphor-icons/react";
 
 import Header from "../components/Header";
 import ArticleComments from "../components/articles/ArticleComments";
 
 const Detail = () => {
-  const [open, setOpen] = useState(false);
-  const [isSeeMore, setSeeMore] = useState(false);
-
   const articleCommentsRef = useRef(null);
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-
+  const handleShowComments = () => {
     // TODO: Add proper types
     // @ts-ignore
     articleCommentsRef?.current?.showComments();
-  };
-  const toggleSeeMore =
-    (stats: boolean = false) =>
-    () => {
-      setSeeMore(stats);
-    };
-  const openDrawer = () => {
-    console.log("open drawer");
   };
 
   return (
@@ -63,7 +50,7 @@ const Detail = () => {
                   <span className="flex mr-3 font-normal text-[16px] text-[#6D6D6D] cursor-pointer">
                     <HandsClapping className="mr-2" /> 40
                   </span>
-                  <span onClick={toggleDrawer(true)} className="flex mr-3 font-normal text-[16px] text-[#6D6D6D] cursor-pointer">
+                  <span onClick={handleShowComments} className="flex mr-3 font-normal text-[16px] text-[#6D6D6D] cursor-pointer">
                     <ChatsCircle weight="duotone" className="mr-2" /> 5
                   </span>
                   <span className="flex cursor-pointer">
@@ -126,8 +113,8 @@ const Detail = () => {
                     <span className="flex mr-3 font-normal text-[16px] text-[#6D6D6D] cursor-pointer">
                       <HandsClapping className="mr-2" /> 40
                     </span>
-                    <span onClick={openDrawer} className="flex mr-3 font-normal text-[16px] text-[#6D6D6D] cursor-pointer">
-                      <ChatsCircle weight="duotone" className="mr-2" /> 5
+                    <span className="flex mr-3 font-normal text-[16px] text-[#6D6D6D] cursor-pointer">
+                      <ChatsCircle weight="duotone" className="mr-2" /> 4
                     </span>
                     <span className="flex cursor-pointer">
                       <BookmarkSimple />
