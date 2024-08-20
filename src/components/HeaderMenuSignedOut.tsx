@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { NotePencil } from "@phosphor-icons/react";
 
 import SignUpModal from "./SignUpModal";
 import SignInModal from "./SignInModal";
 
-const HeaderMenuSignedOut = () => {
+const HeaderMenuSignedOut: FC<{
+  onSignInSuccess: () => void;
+  onSignUpSuccess: () => void;
+}> = ({ onSignInSuccess, onSignUpSuccess }) => {
   const [visibleModal, setVisibleModal] = useState<
     null | "sign-up" | "sign-in"
   >(null);
@@ -19,6 +22,16 @@ const HeaderMenuSignedOut = () => {
     setVisibleModal((visibleModal) =>
       visibleModal === "sign-in" ? null : "sign-in"
     );
+  };
+
+  const handleSignInSuccess = () => {
+    setVisibleModal(null);
+    onSignInSuccess();
+  };
+
+  const handleSignUpSuccess = () => {
+    setVisibleModal(null);
+    onSignUpSuccess();
   };
 
   return (
@@ -44,10 +57,13 @@ const HeaderMenuSignedOut = () => {
         isVisible={visibleModal === "sign-up"}
         toggleModal={handleToggleSignUpVisible}
         openSignInModal={handleToggleSignInVisible}
+        onSignUpSuccess={handleSignUpSuccess}
       />
       <SignInModal
         isVisible={visibleModal === "sign-in"}
         toggleModal={handleToggleSignInVisible}
+        onSignInSuccess={handleSignInSuccess}
+        openSignUpModal={handleToggleSignUpVisible}
       />
     </div>
   );
