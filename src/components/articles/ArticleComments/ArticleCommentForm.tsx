@@ -1,7 +1,7 @@
 import { type FC } from "react";
 import { TextField } from "@mui/material";
 
-const ArticleCommentForm: FC<{ disabled: boolean }> = ({ disabled }) => {
+const ArticleCommentForm: FC<{ disabled?: boolean; handleCancelClick?: Function }> = ({ disabled = false, handleCancelClick }) => {
   return (
     <div className="w-full shadow-[0_4px_12px_0px_rgba(0,0,0,0.1)] rounded-md p-3 mt-7">
       <div className="w-full flex items-center">
@@ -24,7 +24,11 @@ const ArticleCommentForm: FC<{ disabled: boolean }> = ({ disabled }) => {
       ></TextField>
 
       <div className="flex justify-end py-2">
-        <button disabled={disabled} className={`w-20 rounded-lg font-normal text-[14px] align-middle ${disabled ? "text-zinc-500" : "text-[#FF2E3D]"}`}>
+        <button
+          disabled={disabled}
+          className={`w-20 rounded-lg font-normal text-[14px] align-middle ${disabled ? "text-zinc-500" : "text-[#FF2E3D]"}`}
+          onClick={() => typeof handleCancelClick === "function" && handleCancelClick()}
+        >
           Cancel
         </button>
 

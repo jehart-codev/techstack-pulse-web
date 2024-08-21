@@ -1,6 +1,8 @@
 import { type FC, useState } from "react";
 import { ChatsCircle, HandsClapping, IconContext } from "@phosphor-icons/react";
 
+import ArticleCommentForm from "./ArticleCommentForm";
+
 export interface IArticleComment {
   author: string;
   body: string;
@@ -11,6 +13,7 @@ export interface IArticleComment {
 }
 
 const ArticleComment: FC<IArticleComment> = ({ author, body, replies }) => {
+  const [showReplyForm, setShowReplyForm] = useState(false);
   const [isSeeMore, setSeeMore] = useState(false);
 
   return (
@@ -53,10 +56,17 @@ const ArticleComment: FC<IArticleComment> = ({ author, body, replies }) => {
             </span>
           </IconContext.Provider>
         </div>
-        <div>
-          <button className="text-sm font-normal text-[#1F1F1F]">Reply</button>
-        </div>
+
+        {!showReplyForm && (
+          <div>
+            <button className="text-sm font-normal text-[#1F1F1F]" onClick={() => setShowReplyForm(true)}>
+              Reply
+            </button>
+          </div>
+        )}
       </div>
+
+      {showReplyForm && <ArticleCommentForm handleCancelClick={() => setShowReplyForm(false)} />}
 
       {/** Comment reply */}
       {replies?.length ? (
