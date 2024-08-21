@@ -34,9 +34,11 @@ const ArticleComment: FC<IArticleComment> = ({ author, body, replies }) => {
       {/** Comment body */}
       <div className="mt-4">
         <p className={"font-normal text-sm overflow-hidden overflow-ellipsis " + (!isSeeMore ? "line-clamp-5" : "")}>{body}</p>
-        <button className="font-normal text-sm text-[#FF2E3D]" onClick={() => setSeeMore((state) => !state)}>
-          {isSeeMore ? "Show less" : "See more"}
-        </button>
+        {body && body.length > 252 && (
+          <button className="font-normal text-sm text-[#FF2E3D]" onClick={() => setSeeMore((state) => !state)}>
+            {isSeeMore ? "Show less" : "See more"}
+          </button>
+        )}
       </div>
 
       {/** Comments action */}
