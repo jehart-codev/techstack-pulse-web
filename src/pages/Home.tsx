@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 const topArticles = [
   {
     title:
-      "Designing for Impact: 6 Ideas to Enhance the User Experience and Accessibility of Your Power BI...",
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     description:
       "A Journey Through the Design of an Equity, Diversity and Inclusion Power BI Dashboard.",
     date: "Mar 3",
@@ -74,7 +74,7 @@ const Home = () => {
                   </div>
                 </div>
                 <h2
-                  className="text-3xl font-bold cursor-pointer"
+                  className="text-3xl font-bold cursor-pointer line-clamp-3"
                   onClick={articleDetail}
                 >
                   {article.title}

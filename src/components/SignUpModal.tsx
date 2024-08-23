@@ -7,6 +7,7 @@ import { signUpSchema } from "../schemas";
 import Modal from "./common/Modal";
 import Input from "./common/Input";
 import PasswordInput from "./common/PasswordInput";
+import { Alert } from "@mui/material";
 
 interface IFormErrors {
   email?: string[];
@@ -29,6 +30,8 @@ const SignUpModal: FC<{
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState<IFormErrors | null>(null);
+
+  const [responseError, setResponseError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,9 +73,9 @@ const SignUpModal: FC<{
       await updateProfile(user, {
         displayName: `${firstname} ${lastname}`,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating user:", error);
-      alert("Error creating user");
+      setResponseError(error?.code || null);
     } finally {
       setLoading(false);
     }
@@ -87,6 +90,14 @@ const SignUpModal: FC<{
     setErrors(null);
     setLoading(false);
     toggleModal();
+  };
+
+  const displayResponseErrorMessage = () => {
+    if (responseError === "auth/email-already-in-use") {
+      return "Email is already in use. Please try again.";
+    }
+
+    return "Uncaught error. Please try again.";
   };
 
   return (
@@ -106,6 +117,13 @@ const SignUpModal: FC<{
             </button>
           </p>
         </div>
+        {responseError && (
+          <div className="mb-5">
+            <Alert variant="filled" severity="error">
+              {displayResponseErrorMessage()}
+            </Alert>
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4 mb-10">
             <Input

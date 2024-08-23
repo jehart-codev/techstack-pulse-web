@@ -7,6 +7,7 @@ import { signInSchema } from "../schemas";
 import Modal from "./common/Modal";
 import Input from "./common/Input";
 import PasswordInput from "./common/PasswordInput";
+import { Alert } from "@mui/material";
 
 interface IFormErrors {
   email?: string[];
@@ -23,6 +24,8 @@ const SignInModal: FC<{
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState<IFormErrors | null>(null);
+
+  const [responseError, setResponseError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,9 +45,9 @@ const SignInModal: FC<{
     try {
       await signInWithEmailAndPassword(auth, email, password);
       onSignInSuccess();
-    } catch (error) {
-      console.error("Error signing in:", error);
-      alert("Error signing in");
+    } catch (error: any) {
+      console.error("Error signing in:", error.code);
+      setResponseError(error.code);
     } finally {
       setLoading(false);
     }
@@ -58,6 +61,18 @@ const SignInModal: FC<{
     toggleModal();
   };
 
+  const displayResponseErrorMessage = () => {
+    if (responseError === "auth/too-many-requests") {
+      return "Too many requests. Try again later.";
+    }
+
+    if (responseError === "auth/invalid-credential") {
+      return "Invalid credentials. Please try again.";
+    }
+
+    return "Uncaught error. Please try again.";
+  };
+
   return (
     <Modal isVisible={isVisible} onClose={handleClose}>
       <div className="px-10">
@@ -65,6 +80,15 @@ const SignInModal: FC<{
           <img src={TechStackPulseSmallLogo} alt="TechStack Pulse Logo" />
           <h2 className="text-3xl font-bold font-outfit">Sign In</h2>
         </div>
+
+        {responseError && (
+          <div className="mb-5">
+            <Alert variant="filled" severity="error">
+              {displayResponseErrorMessage()}
+            </Alert>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
             <Input
