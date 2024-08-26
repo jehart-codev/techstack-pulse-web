@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
+import { useAtomValue } from "jotai";
 
 // import axios from "axios";
 
-import { IArticleComment } from "../components/articles/ArticleComments/ArticleComment";
+import { IArticleComment, articleCommentsAtom } from "../atoms";
+// import { IArticleComment } from "../components/articles/ArticleComments/ArticleComment";
 
-export const useFetchArticleComments = () => {
+export const useFetchArticleComments = (articleId: string) => {
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+
+  // Get test comments from Jotai.
+  const articleComments = useAtomValue(articleCommentsAtom);
+  const filteredArticleComments = articleComments.comments.find((ac) => ac.id === articleId);
 
   const abortController = new AbortController();
   const fetchArticleComments = async (): Promise<{ data: IArticleComment[] }> => {
@@ -20,33 +26,7 @@ export const useFetchArticleComments = () => {
        * ! Fake API Request
        * We are mimicking here api request, will be removed in the future once API is available.
        */
-      const response = await new Promise((resolve) =>
-        setTimeout(resolve, 2000, {
-          data: [
-            { author: "John Doe", body: "This is a post comment. This is a comment. A trial comment.", replies: [] },
-            {
-              author: "James Bond",
-              body: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-              replies: [
-                {
-                  author: "Alan Wake",
-                  body: "Peter Piper picked a peck of pickled peppers. A peck of pickled peppers Peter Piper picked. If Peter Piper picked a peck of pickled peppers, Where’s the peck of pickled peppers Peter Piper picked?",
-                  replies: [],
-                },
-                {
-                  author: "Jason Bourne",
-                  body: "Susie works in a shoeshine shop. Where she shines she sits, and where she sits she shines.",
-                },
-              ],
-            },
-            { author: "Hairy Petter", body: "Two Questions. First, who is the real main character in the lord of the rings? and second, why Sam?" },
-            {
-              author: "Albert Boomer",
-              body: "The purpose of lorem ipsum is to create a natural looking block of text that doesn't distract from the layout.",
-            },
-          ],
-        }),
-      );
+      const response = await new Promise((resolve) => setTimeout(resolve, 2000, { data: filteredArticleComments ? filteredArticleComments.comments : [] }));
 
       // TODO: Uncomment to test error.
       // throw new Error("Error fetching article comments.");

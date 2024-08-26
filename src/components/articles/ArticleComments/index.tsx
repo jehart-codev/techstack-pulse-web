@@ -8,11 +8,11 @@ import ArticleComment, { IArticleComment } from "./ArticleComment";
 import ArticleCommentsSkeleton from "./ArticleCommentsSkeleton";
 
 // TODO: fixup ref type of any
-const PostComments = forwardRef<any, {}>((_, ref) => {
+const PostComments = forwardRef<any, { articleId: string }>(({ articleId }, ref) => {
   const [open, setOpen] = useState(false);
   const [comments, setComments] = useState<IArticleComment[]>([]);
 
-  const { fetching, error, fetchArticleComments } = useFetchArticleComments();
+  const { fetching, error, fetchArticleComments } = useFetchArticleComments(articleId);
 
   useImperativeHandle(ref, () => ({
     showComments: () => setOpen(true),

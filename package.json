@@ -18,9 +18,12 @@
     "axios": "^1.7.4",
     "ckeditor5": "^42.0.2",
     "firebase": "^10.12.5",
+    "jotai": "^2.9.3",
+    "jotai-immer": "^0.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.25.1",
+    "uuid": "^10.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
