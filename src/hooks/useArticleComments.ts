@@ -90,6 +90,11 @@ export const useArticleComments = (articleId: string) => {
         }
       }
     });
+
+    // Fake network request delay.
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // TODO: Fake error thrown
   };
 
   useEffect(() => {
