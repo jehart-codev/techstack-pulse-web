@@ -2,10 +2,12 @@ import { type FC, useState } from "react";
 import { ChatsCircle, HandsClapping, IconContext } from "@phosphor-icons/react";
 import { User } from "firebase/auth";
 
+import { useArticleComments } from "../../../hooks";
 import ArticleCommentForm from "./ArticleCommentForm";
 
 interface IArticleCommentProps {
   user: User | null;
+  articleId: string;
   id: string;
   author: string;
   body: string;
@@ -14,11 +16,28 @@ interface IArticleCommentProps {
     author: string;
     body: string;
   }[];
+  setRefetchComments: Function;
 }
 
-const ArticleComment: FC<IArticleCommentProps> = ({ user, author, body, replies }) => {
+const ArticleComment: FC<IArticleCommentProps> = ({ user, articleId, id, author, body, replies, setRefetchComments }) => {
+  const [processing, setProcessing] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [isSeeMore, setSeeMore] = useState(false);
+
+  const { replyToArticleComment } = useArticleComments(articleId);
+
+  const handleReplyToArticleComment = async (author: string, body: string) => {
+    try {
+      setProcessing(true);
+
+      await replyToArticleComment(id, author, body);
+    } catch (error) {
+      console.log("error: ", error);
+      throw error;
+    } finally {
+      setProcessing(false);
+    }
+  };
 
   return (
     <div className="mt-6">
@@ -70,13 +89,22 @@ const ArticleComment: FC<IArticleCommentProps> = ({ user, author, body, replies 
         )}
       </div>
 
-      {/* {showReplyForm && <ArticleCommentForm user={user} handleCancelClick={() => setShowReplyForm(false)} />} */}
+      {showReplyForm && (
+        <ArticleCommentForm
+          user={user}
+          disabled={false}
+          processing={processing}
+          replyToArticleComment={handleReplyToArticleComment}
+          setRefetchComments={setRefetchComments}
+          hideArticleCommentReplyForm={() => setShowReplyForm(false)}
+        />
+      )}
 
       {/** Comment reply */}
       {replies?.length ? (
         <div className="border-[#FFC3C7] border-l-4 px-5">
           {replies.map((reply, index) => (
-            <ArticleComment key={index} user={user} {...reply} />
+            <ArticleComment key={index} user={user} articleId={articleId} {...reply} setRefetchComments={setRefetchComments} />
           ))}
         </div>
       ) : null}

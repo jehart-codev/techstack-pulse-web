@@ -7,9 +7,10 @@ const ArticleCommentForm: FC<{
   disabled: boolean;
   processing: boolean;
   hideArticleCommentReplyForm?: Function;
-  addArticleComment: (author: string, body: string) => void;
+  addArticleComment?: (author: string, body: string) => void;
+  replyToArticleComment?: (author: string, body: string) => void;
   setRefetchComments: Function;
-}> = ({ user, disabled, processing, hideArticleCommentReplyForm, addArticleComment, setRefetchComments }) => {
+}> = ({ user, disabled, processing, hideArticleCommentReplyForm, addArticleComment, replyToArticleComment, setRefetchComments }) => {
   const [body, setBody] = useState("");
 
   return (
@@ -57,7 +58,17 @@ const ArticleCommentForm: FC<{
             disabled || processing ? "bg-zinc-500" : "bg-[#FF2E3D]"
           } font-normal text-[14px] text-[#FFFFFF] py-2 px-3`}
           onClick={async () => {
-            await addArticleComment(user?.displayName as string, body);
+            if (typeof addArticleComment === "function") {
+              await addArticleComment(user?.displayName as string, body);
+            } else if (typeof replyToArticleComment === "function") {
+              await replyToArticleComment(user?.displayName as string, body);
+
+              if (typeof hideArticleCommentReplyForm === "function") {
+                hideArticleCommentReplyForm();
+              }
+            }
+
+            setBody("");
             setRefetchComments(true);
           }}
         >

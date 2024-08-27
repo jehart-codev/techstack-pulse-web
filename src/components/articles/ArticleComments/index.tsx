@@ -77,7 +77,9 @@ const PostComments = forwardRef<any, { articleId: string }>(({ articleId }, ref)
             {error.message}
           </Alert>
         ) : (
-          comments.map((comment, index) => <ArticleComment user={user} key={index} {...comment} />)
+          comments.map((comment, index) => (
+            <ArticleComment user={user} articleId={articleId} key={index} {...comment} setRefetchComments={setRefetchComments} />
+          ))
         )}
       </div>
     </Drawer>

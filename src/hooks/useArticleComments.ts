@@ -72,9 +72,27 @@ export const useArticleComments = (articleId: string) => {
     }
   };
 
+  const replyToArticleComment = async (commentId: string, author: string, body: string) => {
+    const id = uuidv4();
+
+    setArticleComments((state) => {
+      const i = state.findIndex((s) => s.articleId === articleId);
+
+      if (i >= 0) {
+        const j = state[i].comments.findIndex((c) => c.id === commentId);
+
+        if (j >= 0) {
+          if (!state[i].comments[j].replies) state[i].comments[j]["replies"] = [];
+
+          state[i].comments[j].replies.push({ id, author, body });
+        }
+      }
+    });
+  };
+
   useEffect(() => {
     return () => abortController.abort();
   }, []);
 
-  return { fetching, processing, error, fetchArticleComments, addArticleComment };
+  return { fetching, processing, error, fetchArticleComments, addArticleComment, replyToArticleComment };
 };
