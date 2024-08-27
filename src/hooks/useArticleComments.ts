@@ -56,6 +56,8 @@ export const useArticleComments = (articleId: string) => {
 
         if (idx >= 0) {
           state[idx].comments.push({ id, author, body });
+        } else {
+          state.push({ articleId, comments: [{ id, author, body }] });
         }
       });
 
