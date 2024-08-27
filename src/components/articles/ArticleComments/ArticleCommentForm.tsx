@@ -1,7 +1,17 @@
-import { type FC } from "react";
+import { type FC, useState } from "react";
 import { TextField } from "@mui/material";
+import { User } from "firebase/auth";
 
-const ArticleCommentForm: FC<{ disabled?: boolean; handleCancelClick?: Function }> = ({ disabled = false, handleCancelClick }) => {
+const ArticleCommentForm: FC<{
+  user: User | null;
+  disabled: boolean;
+  processing: boolean;
+  hideArticleCommentReplyForm?: Function;
+  addArticleComment: (author: string, body: string) => void;
+  setRefetchComments: Function;
+}> = ({ user, disabled, processing, hideArticleCommentReplyForm, addArticleComment, setRefetchComments }) => {
+  const [body, setBody] = useState("");
+
   return (
     <div className="w-full shadow-[0_4px_12px_0px_rgba(0,0,0,0.1)] rounded-md p-3 mt-7">
       <div className="w-full flex items-center">
@@ -13,6 +23,7 @@ const ArticleCommentForm: FC<{ disabled?: boolean; handleCancelClick?: Function 
       </div>
 
       <TextField
+        disabled={disabled || processing}
         autoFocus={false}
         multiline={true}
         className="border-none outline-none focus:outline-none w-full"
@@ -21,22 +32,36 @@ const ArticleCommentForm: FC<{ disabled?: boolean; handleCancelClick?: Function 
           "& fieldset": { border: "none" },
         }}
         rows={3}
-      ></TextField>
+        value={body}
+        onChange={(e) => setBody(e.target.value)}
+      />
 
       <div className="flex justify-end py-2">
         <button
-          disabled={disabled}
-          className={`w-20 rounded-lg font-normal text-[14px] align-middle ${disabled ? "text-zinc-500" : "text-[#FF2E3D]"}`}
-          onClick={() => typeof handleCancelClick === "function" && handleCancelClick()}
+          disabled={disabled || processing}
+          className={`w-20 rounded-lg font-normal text-[14px] align-middle ${disabled || processing ? "text-zinc-500" : "text-[#FF2E3D]"}`}
+          onClick={() => {
+            setBody("");
+
+            if (typeof hideArticleCommentReplyForm === "function") {
+              hideArticleCommentReplyForm();
+            }
+          }}
         >
           Cancel
         </button>
 
         <button
-          disabled={disabled}
-          className={`ml-2 w-20 rounded-[48px] ${disabled ? "bg-zinc-500" : "bg-[#FF2E3D]"} font-normal text-[14px] text-[#FFFFFF] py-2 px-3`}
+          disabled={disabled || processing}
+          className={`ml-2 ${processing ? "w-30" : "w-20"} rounded-[48px] ${
+            disabled || processing ? "bg-zinc-500" : "bg-[#FF2E3D]"
+          } font-normal text-[14px] text-[#FFFFFF] py-2 px-3`}
+          onClick={async () => {
+            await addArticleComment(user?.displayName as string, body);
+            setRefetchComments(true);
+          }}
         >
-          Respond
+          {processing ? "Responding..." : "Respond"}
         </button>
       </div>
     </div>

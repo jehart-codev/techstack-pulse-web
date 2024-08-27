@@ -1,18 +1,22 @@
 import { type FC, useState } from "react";
 import { ChatsCircle, HandsClapping, IconContext } from "@phosphor-icons/react";
+import { User } from "firebase/auth";
 
 import ArticleCommentForm from "./ArticleCommentForm";
 
-export interface IArticleComment {
+interface IArticleCommentProps {
+  user: User | null;
+  id: string;
   author: string;
   body: string;
   replies?: {
+    id: string;
     author: string;
     body: string;
   }[];
 }
 
-const ArticleComment: FC<IArticleComment> = ({ author, body, replies }) => {
+const ArticleComment: FC<IArticleCommentProps> = ({ user, author, body, replies }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [isSeeMore, setSeeMore] = useState(false);
 
@@ -66,13 +70,13 @@ const ArticleComment: FC<IArticleComment> = ({ author, body, replies }) => {
         )}
       </div>
 
-      {showReplyForm && <ArticleCommentForm handleCancelClick={() => setShowReplyForm(false)} />}
+      {/* {showReplyForm && <ArticleCommentForm user={user} handleCancelClick={() => setShowReplyForm(false)} />} */}
 
       {/** Comment reply */}
       {replies?.length ? (
         <div className="border-[#FFC3C7] border-l-4 px-5">
           {replies.map((reply, index) => (
-            <ArticleComment key={index} {...reply} />
+            <ArticleComment key={index} user={user} {...reply} />
           ))}
         </div>
       ) : null}

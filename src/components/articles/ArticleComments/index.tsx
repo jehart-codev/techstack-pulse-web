@@ -2,17 +2,21 @@ import { useImperativeHandle, forwardRef, useState, useEffect } from "react";
 import { CaretDown, XCircle } from "@phosphor-icons/react";
 import { Drawer, Alert } from "@mui/material";
 
-import { useFetchArticleComments } from "../../../hooks";
+import { IArticleComment } from "../../../atoms";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useArticleComments } from "../../../hooks";
 import ArticleCommentForm from "./ArticleCommentForm";
-import ArticleComment, { IArticleComment } from "./ArticleComment";
+import ArticleComment from "./ArticleComment";
 import ArticleCommentsSkeleton from "./ArticleCommentsSkeleton";
 
 // TODO: fixup ref type of any
 const PostComments = forwardRef<any, { articleId: string }>(({ articleId }, ref) => {
   const [open, setOpen] = useState(false);
+  const [refetchComments, setRefetchComments] = useState(false);
   const [comments, setComments] = useState<IArticleComment[]>([]);
 
-  const { fetching, error, fetchArticleComments } = useFetchArticleComments(articleId);
+  const { user } = useAuth();
+  const { fetching, processing, error, fetchArticleComments, addArticleComment } = useArticleComments(articleId);
 
   useImperativeHandle(ref, () => ({
     showComments: () => setOpen(true),
@@ -27,12 +31,13 @@ const PostComments = forwardRef<any, { articleId: string }>(({ articleId }, ref)
      * 1. Add some sort of refresh comment functionality.
      * 2. When replying or adding new comment, fetch latest comments.
      */
-    if (open && !comments.length) {
+    if ((open && !comments.length) || refetchComments) {
       async function fetchComments() {
         try {
           const comments = await fetchArticleComments();
 
           setComments(comments.data);
+          setRefetchComments(false);
         } catch (error) {
           console.log(error);
         }
@@ -40,7 +45,7 @@ const PostComments = forwardRef<any, { articleId: string }>(({ articleId }, ref)
 
       fetchComments();
     }
-  }, [open]);
+  }, [open, refetchComments]);
 
   return (
     <Drawer open={open} onClose={() => setOpen(false)} anchor="right" PaperProps={{ width: "90%" }} className="w-100">
@@ -51,7 +56,13 @@ const PostComments = forwardRef<any, { articleId: string }>(({ articleId }, ref)
         </div>
 
         {/* Text Area for posting comment */}
-        <ArticleCommentForm disabled={fetching} />
+        <ArticleCommentForm
+          user={user}
+          disabled={fetching}
+          processing={processing}
+          addArticleComment={addArticleComment}
+          setRefetchComments={setRefetchComments}
+        />
 
         {/* Comments section */}
         <div className="flex mt-7 align-middle items-center">
@@ -66,7 +77,7 @@ const PostComments = forwardRef<any, { articleId: string }>(({ articleId }, ref)
             {error.message}
           </Alert>
         ) : (
-          comments.map((comment, index) => <ArticleComment key={index} {...comment} />)
+          comments.map((comment, index) => <ArticleComment user={user} key={index} {...comment} />)
         )}
       </div>
     </Drawer>
