@@ -1,10 +1,12 @@
 import { useRef } from "react";
 import { BookmarkSimple, ChatsCircle, HandsClapping, IconContext } from "@phosphor-icons/react";
+import { useSearchParams } from "react-router-dom";
 
 import Header from "../components/Header";
 import ArticleComments from "../components/articles/ArticleComments";
 
 const Detail = () => {
+  const [searchParams] = useSearchParams();
   const articleCommentsRef = useRef(null);
 
   const handleShowComments = () => {
@@ -18,7 +20,7 @@ const Detail = () => {
       <Header />
 
       <main className="container mx-auto overlay">
-        <ArticleComments ref={articleCommentsRef} />
+        <ArticleComments articleId={searchParams.get("id") as string} ref={articleCommentsRef} />
 
         <div className="grow py-8 max-w-4xl mx-auto">
           {/* article */}

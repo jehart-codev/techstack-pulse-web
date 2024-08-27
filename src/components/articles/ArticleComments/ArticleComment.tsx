@@ -1,17 +1,43 @@
 import { type FC, useState } from "react";
 import { ChatsCircle, HandsClapping, IconContext } from "@phosphor-icons/react";
+import { User } from "firebase/auth";
 
-export interface IArticleComment {
+import { useArticleComments } from "../../../hooks";
+import ArticleCommentForm from "./ArticleCommentForm";
+
+interface IArticleCommentProps {
+  user: User | null;
+  articleId: string;
+  id: string;
   author: string;
   body: string;
   replies?: {
+    id: string;
     author: string;
     body: string;
   }[];
+  setRefetchComments: Function;
 }
 
-const ArticleComment: FC<IArticleComment> = ({ author, body, replies }) => {
+const ArticleComment: FC<IArticleCommentProps> = ({ user, articleId, id, author, body, replies, setRefetchComments }) => {
+  const [processing, setProcessing] = useState(false);
+  const [showReplyForm, setShowReplyForm] = useState(false);
   const [isSeeMore, setSeeMore] = useState(false);
+
+  const { replyToArticleComment } = useArticleComments(articleId);
+
+  const handleReplyToArticleComment = async (author: string, body: string) => {
+    try {
+      setProcessing(true);
+
+      await replyToArticleComment(id, author, body);
+    } catch (error) {
+      console.log("error: ", error);
+      throw error;
+    } finally {
+      setProcessing(false);
+    }
+  };
 
   return (
     <div className="mt-6">
@@ -34,9 +60,11 @@ const ArticleComment: FC<IArticleComment> = ({ author, body, replies }) => {
       {/** Comment body */}
       <div className="mt-4">
         <p className={"font-normal text-sm overflow-hidden overflow-ellipsis " + (!isSeeMore ? "line-clamp-5" : "")}>{body}</p>
-        <button className="font-normal text-sm text-[#FF2E3D]" onClick={() => setSeeMore((state) => !state)}>
-          {isSeeMore ? "Show less" : "See more"}
-        </button>
+        {body && body.length > 252 && (
+          <button className="font-normal text-sm text-[#FF2E3D]" onClick={() => setSeeMore((state) => !state)}>
+            {isSeeMore ? "Show less" : "See more"}
+          </button>
+        )}
       </div>
 
       {/** Comments action */}
@@ -51,16 +79,32 @@ const ArticleComment: FC<IArticleComment> = ({ author, body, replies }) => {
             </span>
           </IconContext.Provider>
         </div>
-        <div>
-          <button className="text-sm font-normal text-[#1F1F1F]">Reply</button>
-        </div>
+
+        {!showReplyForm && (
+          <div>
+            <button className="text-sm font-normal text-[#1F1F1F]" onClick={() => setShowReplyForm(true)}>
+              Reply
+            </button>
+          </div>
+        )}
       </div>
+
+      {showReplyForm && (
+        <ArticleCommentForm
+          user={user}
+          disabled={false}
+          processing={processing}
+          replyToArticleComment={handleReplyToArticleComment}
+          setRefetchComments={setRefetchComments}
+          hideArticleCommentReplyForm={() => setShowReplyForm(false)}
+        />
+      )}
 
       {/** Comment reply */}
       {replies?.length ? (
         <div className="border-[#FFC3C7] border-l-4 px-5">
           {replies.map((reply, index) => (
-            <ArticleComment key={index} {...reply} />
+            <ArticleComment key={index} user={user} articleId={articleId} {...reply} setRefetchComments={setRefetchComments} />
           ))}
         </div>
       ) : null}
