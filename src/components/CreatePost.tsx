@@ -2,11 +2,14 @@ import Modal from "./common/Modal";
 import Input from "./common/Input";
 import Button from "./common/Button";
 import { useAuth } from "../contexts/AuthContext";
+import { useEditor } from "../contexts/EditorContext";
 
 type ModalProps = { isVisible: boolean; toggleModal: () => void };
 
 const CreatePostModal = ({ isVisible, toggleModal }: ModalProps) => {
   const { user } = useAuth();
+  const { articleData, handleChangeArticleData, handleSubmit } = useEditor();
+
   const handleClose = () => toggleModal();
 
   return (
@@ -21,8 +24,17 @@ const CreatePostModal = ({ isVisible, toggleModal }: ModalProps) => {
           />
 
           <div className="preview-input-group my-3">
-            <Input type="ghost" title="" value="Sample Title" onChange={() => {}} />
-            <Input type="ghost" title="" value="" placeholder="Write a preview subtitle..." onChange={() => {}} />
+            <Input type="ghost" name="title" title="" placeholder="Sample Title" value={articleData["title"]} onChange={(e) => handleChangeArticleData(e)} />
+            <Input
+              type="ghost"
+              name="subtitle"
+              title=""
+              value={articleData["subtitle"]}
+              placeholder="Write a preview subtitle..."
+              onChange={(e) => {
+                handleChangeArticleData(e);
+              }}
+            />
           </div>
 
           <small className="text-xs text-[#6d6d6d] leading-4">
@@ -39,7 +51,7 @@ const CreatePostModal = ({ isVisible, toggleModal }: ModalProps) => {
 
           <div className="flex justify-end items-center gap-2 mt-3">
             <Button type="ghost" onClick={() => {}} label="Cancel" />
-            <Button type="primary" onClick={() => {}} label="Post article now" />
+            <Button type="primary" onClick={handleSubmit} label="Post article now" />
           </div>
         </div>
       </div>

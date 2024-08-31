@@ -1,20 +1,17 @@
 import Header from "../components/Header";
 import ArticleEditor from "../components/ArticleEditor";
-import React, { useState } from "react";
+
+import EditorController from "../contexts/EditorContext";
 
 const Editor = () => {
-  const [body, setBody] = useState("");
-
-  const handleChangeBody = (e) => {
-    setBody(e);
-  };
-
   return (
     <div>
-      <Header />
-      <main className="container mx-auto">
-        <ArticleEditor onHandleChangeBody={handleChangeBody} />
-      </main>
+      <EditorController>
+        <Header />
+        <main className="container mx-auto">
+          <ArticleEditor />
+        </main>
+      </EditorController>
     </div>
   );
 };

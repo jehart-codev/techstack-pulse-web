@@ -1,9 +1,13 @@
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { ClassicEditor, Bold, Essentials, Heading, Indent, IndentBlock, Italic, Link, List, MediaEmbed, Paragraph, Table, Undo } from "ckeditor5";
 
+import { useEditor } from "../contexts/EditorContext";
+
 import "ckeditor5/ckeditor5.css";
 
-const ArticleEditor = ({ onHandleChangeBody }) => {
+const ArticleEditor = () => {
+  const { handleChangeArticleBody } = useEditor();
+
   return (
     <CKEditor
       editor={ClassicEditor}
@@ -28,7 +32,7 @@ const ArticleEditor = ({ onHandleChangeBody }) => {
         ],
         plugins: [Bold, Essentials, Heading, Indent, IndentBlock, Italic, Link, List, MediaEmbed, Paragraph, Table, Undo],
       }}
-      onChange={(__, editor) => onHandleChangeBody(editor.getData())}
+      onChange={(__, editor) => handleChangeArticleBody(editor.getData())}
     />
   );
 };
