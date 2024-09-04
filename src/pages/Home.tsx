@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const topArticles = [
   {
-    id: "62359978-e10d-4217-a1c7-758265b6366a",
-    title: "Designing for Impact: 6 Ideas to Enhance the User Experience and Accessibility of Your Power BI...",
-    description: "A Journey Through the Design of an Equity, Diversity and Inclusion Power BI Dashboard.",
+    title:
+      "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    description:
+      "A Journey Through the Design of an Equity, Diversity and Inclusion Power BI Dashboard.",
     date: "Mar 3",
     claps: "40",
     comments: "4",
@@ -64,7 +65,8 @@ const Home = () => {
                     <p className="text-sm">Erika Albright</p>
                   </div>
                 </div>
-                <h2 className="text-3xl font-bold cursor-pointer" onClick={() => articleDetail(article.id)}>
+
+                <h2 className="text-3xl font-bold cursor-pointer line-clamp-3" onClick={() => articleDetail(article.id)}>
                   {article.title}
                 </h2>
                 <p>{article.description}</p>
