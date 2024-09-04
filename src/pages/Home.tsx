@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  IconContext,
-  BookmarkSimple,
-  HandsClapping,
-  ChatsCircle,
-} from "@phosphor-icons/react";
+import { IconContext, BookmarkSimple, HandsClapping, ChatsCircle } from "@phosphor-icons/react";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 
@@ -16,17 +11,17 @@ const topArticles = [
       "A Journey Through the Design of an Equity, Diversity and Inclusion Power BI Dashboard.",
     date: "Mar 3",
     claps: "40",
-    comments: "100",
+    comments: "4",
     image:
       "https://s3-alpha-sig.figma.com/img/fbbd/1004/9cf87f621bbb637f67dc3f86d8eb7c0c?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QX~G5sHAoSW~Q5IjHEiQT-TYwGnBTB30heA7EI0pigvn~w6n8O2HQHBjuOf8lUpJKxuYn8cwJXZ7M3o5ORkrXZPNeMxc2VitcMPvRv7QijgOSHU5CG39WcN6epiT6wMhaETcroqFO~HJqOlYoAwhUh2RaLF6-JuOaJjQbu7Hz~UHT9srlkE6rNvsIcNFG~NQ1v2nDJdHlKgvt3qFd7sQ8PHg-xzhLbNWFfOc6Pm4hC9YYXbmiHRBuigt6p7qKnfWVyYEJFfxG3WzJ~Tfa4WuBswSxXRKluy8LKAA4wvkaoQ4Pjld8I27v5DGz4kXn~RNOyleN0wnKF2Y7E-V7nTEng__",
   },
   {
+    id: "bcabe0d5-9516-4d15-9b13-7d46da332cdf",
     title: "Key takeaways from Airbnb’s winter redesign",
-    description:
-      "Returns of good design, a new UI paradigm and the smart use of AI.",
+    description: "Returns of good design, a new UI paradigm and the smart use of AI.",
     date: "Mar 4",
     claps: "1.3k",
-    comments: "100",
+    comments: "0",
     image:
       "https://s3-alpha-sig.figma.com/img/fbbd/1004/9cf87f621bbb637f67dc3f86d8eb7c0c?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QX~G5sHAoSW~Q5IjHEiQT-TYwGnBTB30heA7EI0pigvn~w6n8O2HQHBjuOf8lUpJKxuYn8cwJXZ7M3o5ORkrXZPNeMxc2VitcMPvRv7QijgOSHU5CG39WcN6epiT6wMhaETcroqFO~HJqOlYoAwhUh2RaLF6-JuOaJjQbu7Hz~UHT9srlkE6rNvsIcNFG~NQ1v2nDJdHlKgvt3qFd7sQ8PHg-xzhLbNWFfOc6Pm4hC9YYXbmiHRBuigt6p7qKnfWVyYEJFfxG3WzJ~Tfa4WuBswSxXRKluy8LKAA4wvkaoQ4Pjld8I27v5DGz4kXn~RNOyleN0wnKF2Y7E-V7nTEng__",
   },
@@ -34,12 +29,12 @@ const topArticles = [
 
 const recentArticles = [
   {
+    id: "596cef1f-427f-4fd4-86a6-1d9d9f57b730",
     title: "10 Facts about color in Design",
-    description:
-      "Thing to remember when creating a color scheme for your product.",
+    description: "Thing to remember when creating a color scheme for your product.",
     date: "Mar 28",
     claps: "920",
-    comments: "200",
+    comments: "0",
     image:
       "https://s3-alpha-sig.figma.com/img/fbbd/1004/9cf87f621bbb637f67dc3f86d8eb7c0c?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QX~G5sHAoSW~Q5IjHEiQT-TYwGnBTB30heA7EI0pigvn~w6n8O2HQHBjuOf8lUpJKxuYn8cwJXZ7M3o5ORkrXZPNeMxc2VitcMPvRv7QijgOSHU5CG39WcN6epiT6wMhaETcroqFO~HJqOlYoAwhUh2RaLF6-JuOaJjQbu7Hz~UHT9srlkE6rNvsIcNFG~NQ1v2nDJdHlKgvt3qFd7sQ8PHg-xzhLbNWFfOc6Pm4hC9YYXbmiHRBuigt6p7qKnfWVyYEJFfxG3WzJ~Tfa4WuBswSxXRKluy8LKAA4wvkaoQ4Pjld8I27v5DGz4kXn~RNOyleN0wnKF2Y7E-V7nTEng__",
   },
@@ -48,13 +43,10 @@ const recentArticles = [
 const Home = () => {
   const [activeTab, setActiveTab] = useState("top-posts");
   const navigate = useNavigate();
-  const articleDetail = () => {
-    navigate("/detail");
-  };
+  const articleDetail = (id: string) => navigate(`/detail?id=${id}`);
 
   const renderArticles = () => {
-    const chosenArticles =
-      activeTab === "top-posts" ? topArticles : recentArticles;
+    const chosenArticles = activeTab === "top-posts" ? topArticles : recentArticles;
 
     return (
       <>
@@ -73,10 +65,8 @@ const Home = () => {
                     <p className="text-sm">Erika Albright</p>
                   </div>
                 </div>
-                <h2
-                  className="text-3xl font-bold cursor-pointer line-clamp-3"
-                  onClick={articleDetail}
-                >
+
+                <h2 className="text-3xl font-bold cursor-pointer line-clamp-3" onClick={() => articleDetail(article.id)}>
                   {article.title}
                 </h2>
                 <p>{article.description}</p>
@@ -126,9 +116,7 @@ const Home = () => {
                     href="#"
                     onClick={() => setActiveTab("top-posts")}
                     className={`${
-                      activeTab === "top-posts"
-                        ? "font-bold border-[#3d3d3d]"
-                        : "border-transparent opacity-75 text-[#6d6d6d]"
+                      activeTab === "top-posts" ? "font-bold border-[#3d3d3d]" : "border-transparent opacity-75 text-[#6d6d6d]"
                     } inline-block py-4 border-b-2  rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300`}
                   >
                     Top Posts
@@ -139,9 +127,7 @@ const Home = () => {
                     href="#"
                     onClick={() => setActiveTab("recents")}
                     className={`${
-                      activeTab === "recents"
-                        ? "font-bold border-[#3d3d3d]"
-                        : "border-transparent opacity-75 text-[#6d6d6d]"
+                      activeTab === "recents" ? "font-bold border-[#3d3d3d]" : "border-transparent opacity-75 text-[#6d6d6d]"
                     } inline-block py-4 border-b-2  rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300`}
                     aria-current="page"
                   >
@@ -152,9 +138,7 @@ const Home = () => {
             </div>
 
             {/* article */}
-            <IconContext.Provider value={{ size: "20px", color: "#F42534" }}>
-              {renderArticles()}
-            </IconContext.Provider>
+            <IconContext.Provider value={{ size: "20px", color: "#F42534" }}>{renderArticles()}</IconContext.Provider>
           </div>
           <div className="w-[424px] shrink-0 py-10 px-3 lg:block hidden">
             <div className="p-3">
@@ -162,21 +146,11 @@ const Home = () => {
                 Recommended <span className="text-[#FF2E3D]">Topics</span>
               </p>
               <ul className="flex items-center flex-wrap gap-3">
-                <li className="text-[#1f1f1f] p-4 bg-[#f6f6f6] rounded-[80px] leading-none cursor-pointer">
-                  Events
-                </li>
-                <li className="text-[#1f1f1f] p-4 bg-[#f6f6f6] rounded-[80px] leading-none cursor-pointer">
-                  Games
-                </li>
-                <li className="text-[#1f1f1f] p-4 bg-[#f6f6f6] rounded-[80px] leading-none cursor-pointer">
-                  Sports
-                </li>
-                <li className="text-[#1f1f1f] p-4 bg-[#f6f6f6] rounded-[80px] leading-none cursor-pointer">
-                  Technology
-                </li>
-                <li className="text-[#1f1f1f] p-4 bg-[#f6f6f6] rounded-[80px] leading-none cursor-pointer">
-                  Lifestyle
-                </li>
+                <li className="text-[#1f1f1f] p-4 bg-[#f6f6f6] rounded-[80px] leading-none cursor-pointer">Events</li>
+                <li className="text-[#1f1f1f] p-4 bg-[#f6f6f6] rounded-[80px] leading-none cursor-pointer">Games</li>
+                <li className="text-[#1f1f1f] p-4 bg-[#f6f6f6] rounded-[80px] leading-none cursor-pointer">Sports</li>
+                <li className="text-[#1f1f1f] p-4 bg-[#f6f6f6] rounded-[80px] leading-none cursor-pointer">Technology</li>
+                <li className="text-[#1f1f1f] p-4 bg-[#f6f6f6] rounded-[80px] leading-none cursor-pointer">Lifestyle</li>
               </ul>
             </div>
           </div>
