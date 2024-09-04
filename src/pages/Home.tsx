@@ -5,10 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const topArticles = [
   {
-    title:
-      "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    description:
-      "A Journey Through the Design of an Equity, Diversity and Inclusion Power BI Dashboard.",
+    title: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    description: "A Journey Through the Design of an Equity, Diversity and Inclusion Power BI Dashboard.",
     date: "Mar 3",
     claps: "40",
     comments: "4",
@@ -66,7 +64,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                <h2 className="text-3xl font-bold cursor-pointer line-clamp-3" onClick={() => articleDetail(article.id)}>
+                <h2 className="text-3xl font-bold cursor-pointer line-clamp-3" onClick={() => articleDetail(article.id as string)}>
                   {article.title}
                 </h2>
                 <p>{article.description}</p>
